@@ -1,0 +1,400 @@
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LADORA Center</title>
+    <meta name="description" content="مركز طبي متخصص بالعناية بالبشرة، التجميل، الليزر، الجراحة التجميلية، وطب الأسنان. خدمات فاخرة بأعلى جودة." />
+    <meta name="keywords" content="تجميل, عناية بالبشرة, طب تجميلي, مركز تجميل, ليزر, عيادة تجميل, طب الأسنان" />
+    <meta name="author" content="مركز العناية الطبية" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <style>
+        *{
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: "Tajawal", sans-serif;
+            scroll-behavior: smooth;
+        }
+        .logo-hero{
+            width: 300px;
+        }
+        @keyframes fadeDown{
+            0%{
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            100%{
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-down{
+            animation: fadeDown 2s ease-out;
+        }
+        @keyframes bounceIn {
+            0% {
+            transform: translateY(100px);
+            opacity: 0;
+            }
+            60% {
+            transform: translateY(-10px);
+            opacity: 1;
+            }
+            100% {
+            transform: translateY(0);
+            }
+        }
+
+        .animate-bounce-in {
+            animation: bounceIn 0.8s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <header class="w-full fixed top-0 left-0 z-50 px-6 py-4 flex items-center justify-between">
+        <!-- شعار الموقع -->
+        <div class="text-xl font-bold text-black text-center">
+            {% trans "LADORA" %}<br>
+            <span class="text-base">{% trans "SKINCARE" %}</span>
+        </div>
+    
+        <!-- عناصر الهيدر -->
+        <div class="flex items-center gap-4 relative">
+            <!-- زر احجز الآن -->
+            <button class="bg-blue-600 hover:bg-blue-700 transition px-4 py-2 rounded-lg text-white font-medium">
+                <a href="#booking">{% trans "احجز الآن" %}</a>
+            </button>
+
+            <div class="relative ml-5">
+                <button onclick="toggleMenu()" class="focus:outline-none">
+                    {% if LANGUAGE_CODE == "ar" %}
+                        <img src="{% static 'home/imgs/sa.png' %}" alt="العربية" class="w-6 h-6 rounded-full border border-white" />
+                    {% elif LANGUAGE_CODE == "en" %}
+                        <img src="{% static 'home/imgs/gb.png' %}" alt="English" class="w-6 h-6 rounded-full border border-white" />
+                    {% elif LANGUAGE_CODE == "ru" %}
+                        <img src="{% static 'home/imgs/ru.png' %}" alt="Русский" class="w-6 h-6 rounded-full border border-white" />
+                    {% else %}
+                        <img src="{% static 'home/imgs/gb.png' %}" alt="Language" class="w-6 h-6 rounded-full border border-white" />
+                    {% endif %}
+                </button>
+                <!-- القائمة المنسدلة -->
+                <ul id="langMenu" class="absolute left-1/2 transform -translate-x-1/2 mt-2 w-32 bg-white text-black rounded-lg shadow-lg hidden z-50">
+                    <li>
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ request.path }}">
+                            <input type="hidden" name="language" value="ar">
+                            <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                <img src="{% static 'home/imgs/sa.png' %}" class="inline w-5 h-5 mr-2 rounded-full" /> {% trans "العربية" %}
+                            </button>
+                        </form>
+                    </li>
+                    <li>
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ request.path }}">
+                            <input type="hidden" name="language" value="en">
+                            <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                <img src="{% static 'home/imgs/gb.png' %}" class="inline w-5 h-5 mr-2 rounded-full" /> {% trans "English" %}
+                            </button>
+                        </form>
+                    </li>
+                    <li>
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ request.path }}">
+                            <input type="hidden" name="language" value="ru">
+                            <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                <img src="{% static 'home/imgs/ru.png' %}" class="inline w-5 h-5 mr-2 rounded-full" /> {% trans "Русский" %}
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <!-- الهيرو -->
+    <section class="relative h-screen bg-cover bg-center animate-fade-down" style="background-image: url('/static/home/imgs/hero3.jpg');">
+        <section class="relative h-screen bg-cover bg-center animate-fade-down" style="background-image: url('/static/home/imgs/hero3.jpg');">
+            <!-- Overlay darkening (اختياري) -->
+            <div class="absolute inset-0 bg-black/50"></div>
+            
+            <!-- محتوى الهيرو -->
+            <div class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
+                <img src="{% static 'home/imgs/LOGO.png' %}" class="mb-6 logo-hero" />
+                <h1 class="text-3xl md:text-5xl font-bold mb-4">{% trans "أهلاً بكم في عالم الجمال والتميز" %}</h1>
+                <p class="text-lg md:text-xl max-w-xl">
+                    {% trans "نقدّم لكم خدمات متكاملة في العناية بالبشرة، التجميل الطبي، والابتسامة المشرقة." %}
+                </p>
+            </div>
+        </section>
+    <!-- من نحن -->
+    <section id="about" class="py-20 px-6 bg-gradient-to-b from-gray-100 to-white flex flex-col lg:flex-row items-center gap-10">
+        <div class="logo-2 border-black border-md">
+            <img src="{% static 'home/imgs/Mockup copy.jpg' %}" width="500" class="rounded-2xl border-2 border-black mx-auto">
+        </div>
+        <div class="max-w-3xl text-center text-black">
+            <h2 class="text-4xl font-bold mb-4">{% trans "من نحن" %}</h2>
+            <p class="text-gray-600 text-lg leading-loose">
+                {% blocktrans trimmed %}
+نحن المركز الوحيد في الشرق الأوسط المتخصص بالعناية بالجلد والبشرة للمراهقين أولاً. كما أن العيادات مجهزة بكامل التقنيات الحديثة والأطباء ذوي الخبرة الواسعة في مجال الجلدية والعناية بالبشرة والتجميل غير الجراحي والجراحي على حد سواء. شعارنا هو الوقاية قبل العلاج، لذلك نحن الوجهة الأولى، وربما الوحيدة، للجمال الطبيعي.
+{% endblocktrans %}
+            </p>
+        </div>
+    </section>
+
+    <section class="stats-section py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-16 text-gray-800 text-center">
+                <span class="text-gray-900">{% trans "إحصائياتنا" %}</span>
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-center">
+                <!-- عدد المرضى -->
+                <div class="relative bg-white p-6 rounded-xl shadow-lg">
+                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                        <div class="w-14 h-14 bg-black text-white flex items-center justify-center rounded-xl rotate-12
+                            transition duration-300 transform hover:rotate-0 hover:scale-110 shadow-md">
+                            <i class="fas fa-hospital-user text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="pt-10">
+                        <span class="number text-4xl font-bold text-gray-800" data-target="25000">0</span>
+                        <p class="mt-2 text-gray-600">{% trans "عدد المرضى" %}</p>
+                    </div>
+                </div>
+                <!-- سنوات الخبرة -->
+                <div class="relative bg-white p-6 rounded-xl shadow-lg">
+                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                        <div class="w-14 h-14 bg-black text-white flex items-center justify-center rounded-xl rotate-12
+                            transition duration-300 transform hover:rotate-0 hover:scale-110 shadow-md">
+                            <i class="fas fa-user-clock text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="pt-10">
+                        <span class="number text-4xl font-bold text-gray-800" data-target="15">0</span>
+                        <p class="mt-2 text-gray-600">{% trans "سنوات الخبرة" %}</p>
+                    </div>
+                </div>
+                <!-- أطباء متخصصون -->
+                <div class="relative bg-white p-6 rounded-xl shadow-lg">
+                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                        <div class="w-14 h-14 bg-black text-white flex items-center justify-center rounded-xl rotate-12
+                            transition duration-300 transform hover:rotate-0 hover:scale-110 shadow-md">
+                            <i class="fas fa-user-md text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="pt-10">
+                        <span class="number text-4xl font-bold text-gray-800" data-target="30">0</span>
+                        <p class="mt-2 text-gray-600">{% trans "أطباء متخصصون" %}</p>
+                    </div>
+                </div>
+                <!-- نسبة الرضا -->
+                <div class="relative bg-white p-6 rounded-xl shadow-lg">
+                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                        <div class="w-14 h-14 bg-black text-white flex items-center justify-center rounded-xl rotate-12
+                            transition duration-300 transform hover:rotate-0 hover:scale-110 shadow-md">
+                            <i class="fas fa-face-smile text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="pt-10">
+                        <span class="number text-4xl font-bold text-gray-800" data-target="98">0</span>
+                        <p class="mt-2 text-gray-600">{% trans "نسبة الرضا" %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">مشاريعنا</h2>
+            {% for project in projects %}
+                <div class="flex flex-col md:flex-row {% if forloop.counter0|divisibleby:2 %}md:flex-row-reverse{% endif %} items-center mb-12">
+                    <div class="md:w-1/2">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-64 object-cover rounded-lg shadow-md" />
+                    </div>
+                    <div class="md:w-1/2 md:px-8 mt-6 md:mt-0 text-right">
+                        <h3 class="text-2xl font-semibold mb-4">{{ project.title }}</h3>
+                        <p class="text-gray-700 leading-relaxed">{{ project.desciption }}</p>
+                        <p class="text-gray-700 leading-relaxed">{{ project.created_at }}</p>
+                        
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    <section id="services" class="py-20 px-4 bg-white">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-16 text-gray-800 text-center">
+                <span class="text-gray-900">{% trans "خدماتنا" %}</span>
+            </h2>
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-right">
+                <!-- خدمة 1 -->
+                <div class="bg-white border border-gray-200 shadow-md rounded-2xl p-6 transform transition-all duration-300 hover:scale-105 hover:-translate-y-1">
+                    <div class="text-6xl text-black mb-4"><i class="fas fa-spa"></i></div>
+                    <h3 class="text-2xl font-bold text-black mb-2">{% trans "تنظيف البشرة" %}</h3>
+                    <p class="text-gray-700 mb-4">{% trans "جلسات عميقة ونضارة فورية لبشرتك باستخدام أحدث الأجهزة." %}</p>
+                    <a href="#booking" class="border border-black text-black px-6 py-2 rounded-full transition duration-300 hover:bg-black hover:text-white">
+                            {% trans "احجز الآن" %}
+                    </a>
+                </div>
+                <!-- خدمة 2 -->
+                <div class="bg-white border border-gray-200 shadow-md rounded-2xl p-6 transform transition-all duration-300 hover:scale-105 hover:-translate-y-1" data-aos-delay="100">
+                    <div class="text-6xl text-black mb-4"><i class="fas fa-laser"></i></div>
+                    <h3 class="text-2xl font-bold text-black mb-2">{% trans "إزالة الشعر بالليزر" %}</h3>
+                    <p class="text-gray-700 mb-4">{% trans "أحدث تقنيات الليزر لإزالة الشعر بفعالية ودون ألم." %}</p>
+                    <a href="#booking" class="border border-black text-black px-6 py-2 rounded-full transition duration-300 hover:bg-black hover:text-white">
+                        {% trans "احجز الآن" %}
+                    </a>
+                </div>
+                <!-- خدمة 3 -->
+                <div class="bg-white border border-gray-200 shadow-md rounded-2xl p-6 transform transition-all duration-300 hover:scale-105 hover:-translate-y-1" data-aos-delay="200">
+                    <div class="text-6xl text-black mb-4"><i class="fas fa-tooth"></i></div>
+                    <h3 class="text-2xl font-bold text-black mb-2">{% trans "طب الأسنان التجميلي" %}</h3>
+                    <p class="text-gray-700 mb-4">{% trans "تبييض، زراعة، وتقويم شفاف بابتسامة مثالية." %}</p>
+                    <a href="#booking" class="border border-black text-black px-6 py-2 rounded-full transition duration-300 hover:bg-black hover:text-white">
+                        {% trans "احجز الآن" %}
+                    </a>
+                </div>
+                <!-- خدمة 4 -->
+                <div class="bg-white border border-gray-200 shadow-md rounded-2xl p-6 transform transition-all duration-300 hover:scale-105 hover:-translate-y-1" data-aos-delay="300">
+                    <div class="text-6xl text-black mb-4"><i class="fas fa-user-md"></i></div>
+                    <h3 class="text-2xl font-bold text-black mb-2">{% trans "التجميل الجراحي" %}</h3>
+                    <p class="text-gray-700 mb-4">{% trans "عمليات تجميل الأنف، شد الوجه، ونحت الجسم بجودة عالية." %}</p>
+                    <a href="#booking" class="border border-black text-black px-6 py-2 rounded-full transition duration-300 hover:bg-black hover:text-white">
+                        {% trans "احجز الآن" %}
+                    </a>
+                </div>
+                <!-- خدمة 5 -->
+                <div class="bg-white border border-gray-200 shadow-md rounded-2xl p-6 transform transition-all duration-300 hover:scale-105 hover:-translate-y-1" data-aos-delay="400">
+                    <div class="text-6xl text-black mb-4"><i class="fas fa-magic"></i></div>
+                    <h3 class="text-2xl font-bold text-black mb-2">{% trans "حقن الفيلر والبوتوكس" %}</h3>
+                    <p class="text-gray-700 mb-4">{% trans "استعيدي شبابك الطبيعي بلمسة طبية آمنة وفعالة." %}</p>
+                    <a href="#booking" class="border border-black text-black px-6 py-2 rounded-full transition duration-300 hover:bg-black hover:text-white">
+                        {% trans "احجز الآن" %}
+                    </a>
+                </div>
+                <!-- خدمة 6 -->
+                <div class="bg-white border border-gray-200 shadow-md rounded-2xl p-6 transform transition-all duration-300 hover:scale-105 hover:-translate-y-1" data-aos-delay="500">
+                    <div class="text-6xl text-black mb-4"><i class="fas fa-heartbeat"></i></div>
+                    <h3 class="text-2xl font-bold text-black mb-2">{% trans "علاجات البشرة المتقدمة" %}</h3>
+                    <p class="text-gray-700 mb-4">{% trans "فراكشنال ليزر، بلازما، وتقنيات تحفيز الكولاجين." %}</p>
+                    <a href="#booking" class="border border-black text-black px-6 py-2 rounded-full transition duration-300 hover:bg-black hover:text-white">
+                        {% trans "احجز الآن" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- التقييمات -->
+    <section id="reviews" class="py-24 px-6 bg-gradient-to-b from-gray-100 to-white">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-16 text-gray-800 relative inline-block" data-aos="fade-down">
+                {% trans "آراء" %} <span class="text-gray-900">{% trans "عملائنا" %}</span>
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- مراجعة 1 -->
+                <div class="bg-white p-8 rounded-3xl shadow-2xl transform hover:-translate-y-2 transition duration-500" data-aos="flip-left">
+                    <div class="text-6xl text-gray-800 mb-4">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="text-gray-700 italic text-lg leading-relaxed mb-6">
+                        “{% trans "خدمة ممتازة، نتائج مذهلة، وطاقم محترف بمعنى الكلمة." %}”
+                    </p>
+                    <div class="flex justify-center mb-4 text-yellow-400 text-xl">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4 class="font-bold text-xl text-gray-900">— {% trans "سارة" %}</h4>
+                </div>
+                <!-- مراجعة 2 -->
+                <div class="bg-white p-8 rounded-3xl shadow-2xl transform hover:-translate-y-2 transition duration-500" data-aos="flip-left" data-aos-delay="100">
+                    <div class="text-6xl text-gray-800 mb-4">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="text-gray-700 italic text-lg leading-relaxed mb-6">
+                        “{% trans "أفضل مركز جمالي زرته بحياتي، تجربة راقية بكل تفاصيلها." %}”
+                    </p>
+                    <div class="flex justify-center mb-4 text-yellow-400 text-xl">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4 class="font-bold text-xl text-gray-900">— {% trans "أحمد" %}</h4>
+                </div>
+                <!-- مراجعة 3 -->
+                <div class="bg-white p-8 rounded-3xl shadow-2xl transform hover:-translate-y-2 transition duration-500" data-aos="flip-left" data-aos-delay="200">
+                    <div class="text-6xl text-gray-800 mb-4">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="text-gray-700 italic text-lg leading-relaxed mb-6">
+                        “{% trans "أشكر كل الفريق الطبي على العناية الرائعة والنتائج المبهرة." %}”
+                    </p>
+                    <div class="flex justify-center mb-4 text-yellow-400 text-xl">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4 class="font-bold text-xl text-gray-900">— {% trans "لينا" %}</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- الحجز -->
+    <section id="booking" class="py-20 px-6 bg-gradient-to-br from-black via-gray-900 to-black text-white">
+        <div class="max-w-3xl mx-auto rounded-2xl bg-white/5 backdrop-blur-md p-10 shadow-2xl">
+            <h2 class="text-4xl font-bold text-white mb-8 text-center">{% trans "احجز موعدك الآن" %}</h2>
+            <form id="bookingForm" class="grid gap-5">
+                <input type="text" id="name" placeholder="{% trans 'الاسم الكامل' %}" class="p-4 rounded-lg bg-white/90 text-black focus:outline-none focus:ring-2 focus:ring-white" required>
+                <input type="tel" id="phone" placeholder="{% trans 'رقم الهاتف' %}" class="p-4 rounded-lg bg-white/90 text-black focus:outline-none focus:ring-2 focus:ring-white" dir="rtl" required>
+                <input type="email" id="email" placeholder="{% trans 'البريد الإلكتروني' %}" class="p-4 rounded-lg bg-white/90 text-black focus:outline-none focus:ring-2 focus:ring-white" required>
+                <textarea id="notes" placeholder="{% trans 'ملاحظات' %}" rows="4" class="p-4 rounded-lg bg-white/90 text-black focus:outline-none focus:ring-2 focus:ring-white"></textarea>
+                <button type="submit" class="border border-white text-white py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:text-black">
+                    {% trans "إرسال الطلب" %}
+                </button>
+            </form>
+        </div>
+    </section>
+    <!-- الفوتر -->
+    <footer class="bg-black text-white py-10">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+            <div class="mb-6 md:mb-0 text-center md:text-right">
+                <h3 class="text-xl font-bold mb-2">{% trans "مركز LADORA" %}</h3>
+                <p class="text-gray-400 text-sm">{% trans "© 2025 جميع الحقوق محفوظة" %}</p>
+            </div>
+            <div class="flex space-x-6 rtl:space-x-reverse text-xl">
+                <a href="#" class="transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="transition"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="transition"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="transition"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </footer>
+    <!-- زر واتساب -->
+    <div class="fixed bottom-5 left-5 z-50 animate-bounce-in">
+        <a href="https://wa.me/1234567890" target="_blank"
+        class="w-16 h-16 bg-green-500 hover:bg-green-600 text-white shadow-xl shadow-green-300 rounded-full flex items-center justify-center animate-pulse transition-all duration-300">
+        <i class="fab fa-whatsapp text-3xl"></i>
+        </a>
+    </div>
+    <!-- سكريبتات -->
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.0/js/all.min.js"></script>
+    <script src="{% static 'home/js/main.js' %}"></script>
+</body>
+</html>
