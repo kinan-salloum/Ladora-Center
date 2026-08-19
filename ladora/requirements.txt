@@ -1,5 +1,15 @@
-﻿asgiref==3.12.1
+# الحزم الأساسية التي ظهرت في مشروعك
 Django==6.1
+asgiref==3.12.1
 sqlparse==0.6.0
 tzdata==2026.3
+
+# الحزم التي تسببت في توقف التشغيل سابقاً
 gunicorn
+django-modeltranslation
+
+# حزم أساسية جداً لبيئة الإنتاج (Production) والسيرفر
+pillow                    # ضرورية جداً إذا كان مشروعك يتعامل مع صور الأطباء أو الأقسام (ImageField)
+psycopg2-binary           # ضرورية لربط المشروع بقاعدة بيانات PostgreSQL على Render مستقبلاً
+whitenoise                # ضرورية جداً لتشغيل وعرض ملفات الـ CSS والـ JS والصور (Static Files) على السيرفر
+django-cors-headers       # ستحتاجها لحل مشاكل الاتصال (CORS) إذا كنت تربطه مع فرونت-إند منفصل
